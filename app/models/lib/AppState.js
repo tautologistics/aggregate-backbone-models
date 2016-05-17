@@ -20,9 +20,9 @@ let AppState = new (SuperModel.extend({
     // Pipe relevant events to the log buffers
     this.on('all', function (event, options) {
       console.log(event, options);
-      var log = this.get('logs.' + event.split(':')[0]);
+      var log = this.get(`logs.${event.split(':')[0]}`);
       if (log) {
-        log.unshift(event + '\n');
+        log.unshift(`${event}\n`);
         if (log.length > 100) {
           log.length = 100;
         }
@@ -32,32 +32,32 @@ let AppState = new (SuperModel.extend({
 
   /*
    * Creates a trigger function bound to a model type/name. e.g.:
-   *   var triggerFoo = AppState._getModelEmitter('aggmodel', 'Foo');
+   *   var triggerFoo = AppState._getModelEmitter('complexmodel', 'Foo');
    *   triggerFoo('change:bar');
    * Will emit two events:
-   *   aggmodel:Foo:change:bar
-   *   aggmodel:Foo:change
+   *   complexmodel:Foo:change:bar
+   *   complexmodel:Foo:change
    */
   _getModelEmitter: function (prefix, modelName) {
     var self = this;
     return function (eventId, options) {
       setTimeout(function () {
-        self.trigger(prefix + ':' + modelName + ':' + eventId, options);
+        self.trigger(`${prefix}:${modelName}:${eventId}`, options);
         // if (eventId.split(':').length == 1) {
-        //   this.trigger(prefix + ':' + modelName, options);
+        //   this.trigger(`${prefix}:${modelName}`, options);
         // }
       }, 0);
     };
   },
 
-  // Create an agg model event trigger function
-  getAggmodelEmitter: function (modelName) {
-    return this._getModelEmitter('aggmodel', modelName);
+  // Create a complex model event trigger function
+  getComplexModelEmitter: function (modelName) {
+    return this._getModelEmitter('complexmodel', modelName);
   },
 
-  // Create a table model event trigger function
-  getTablemodelEmitter: function (modelName) {
-    return this._getModelEmitter('tablemodel', modelName);
+  // Create a simple model event trigger function
+  getSimpleModelEmitter: function (modelName) {
+    return this._getModelEmitter('simplemodel', modelName);
   },
 
 }))();

@@ -4,7 +4,7 @@
 let Marionette    = require('backbone.marionette');
 
 // Application state + event bus (singleton)
-let AppState      = require('./models/AppState');
+let AppState      = require('./models/lib/AppState');
 
 // Views
 let LayoutView    = require('./views/Layout');

@@ -5,7 +5,7 @@ let $ = require('jquery');
 let Marionette = require('backbone.marionette');
 
 // Models
-let AppState = require('../models/AppState');
+let AppState = require('../models/lib/AppState');
 
 // Misc
 let Template = require('../templates/appState.hbs');
